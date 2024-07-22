@@ -20,8 +20,11 @@ void	exec_cmd(char *argv, char **envp)
 
 	args = ft_split(argv, ' ');
 	cmdpath = ft_strjoin("/bin/", args[0]);
-	execve(cmdpath, args, envp);
-	perror("execve");
+	if (execve(cmdpath, args, envp) == -1)
+	{
+		perror("command not found");
+		exit(-1);
+	}
 	free(cmdpath);
 }
 

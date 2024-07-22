@@ -83,13 +83,14 @@ char	**ft_split(char *s, char c)
 	i = 0;
 	nb = count_words(s, c);
 	tab = (char **)malloc(sizeof(char *) * (nb + 1));
+	if (!tab)
+		return (NULL);
 	if (!ft_strchr(s, c))
 	{
 		tab[i] = s;
+		tab[i + 1] = NULL;
 		return (tab);
 	}
-	if (!tab)
-		return (NULL);
 	while (i < nb)
 	{
 		s = (s + toomanyc(s, c));
