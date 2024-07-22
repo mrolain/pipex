@@ -19,39 +19,51 @@ void	exec_cmd(char *argv, char **envp)
 	char	*cmdpath;
 
 	args = ft_split(argv, ' ');
+	if (!args)
+		exit(1);
 	cmdpath = ft_strjoin("/bin/", args[0]);
+	if (!cmdpath)
+		exit(1);
 	if (execve(cmdpath, args, envp) == -1)
 	{
 		perror("command not found");
-		exit(-1);
+		exit(1);
 	}
-	free(cmdpath);
+	exit(1);
 }
 
-int	child(char **argv, char **envp, int pipefd[2])
+void	child(char **argv, char **envp, int pipefd[2])
 {
 	int		infile;
 
 	close(pipefd[0]);
 	infile = open(argv[1], O_RDONLY | O_CREAT, 0777);
+	if (infile == -1)
+	{
+		perror("infile");
+		exit(1);
+	}
 	dup2(infile, STDIN_FILENO);
 	close(infile);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	exec_cmd(argv[2], envp);
-	return (0);
 }
 
-int	parent(char **argv, char **envp, int pipefd[2])
+void	parent(char **argv, char **envp, int pipefd[2])
 {
 	int		outfile;
 
 	close(pipefd[1]);
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (outfile == -1)
+	{
+		perror("outfile");
+		exit(1);
+	}
 	dup2(pipefd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	exec_cmd(argv[3], envp);
-	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
