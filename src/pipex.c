@@ -6,7 +6,7 @@
 /*   By: mrolain <mrolain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:26:10 by mrolain           #+#    #+#             */
-/*   Updated: 2024/07/19 07:50:32 by mrolain          ###   ########.fr       */
+/*   Updated: 2024/07/23 22:21:05 by mrolain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		write(1, "wrong argument.", 15);
+		write(1, "wrong argument.\n", 16);
 		exit (1);
 	}
 	return (0);
